@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package exec;
+
+import "google/protobuf/timestamp.proto";
+
+service ExecCommand {
+  rpc Exec (Command) returns (stream Message) {}
+}
+
+message Command {
+  string uuid = 1;
+  string command = 2;
+  repeated string arguments = 3;
+  repeated string environment = 4;
+  string user = 5;
+  string group = 6;
+  string directory = 7;
+}
+
+message Message {
+  google.protobuf.Timestamp timestamp = 1;
+  uint32 line = 2;
+  string message = 3;
+}

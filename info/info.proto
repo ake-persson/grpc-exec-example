@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package info;
+
+import "google/protobuf/timestamp.proto";
+
+service Info {
+  rpc GetSystem (Empty) returns (System) {}
+  rpc Register (System) returns (System);
+  rpc KeepAlive (stream KeepAliveRequest) returns (Empty);
+  rpc ListSystems (ListRequest) returns (SystemList);
+}
+
+message Empty {}
+
+message System {
+  string uuid = 1;
+  google.protobuf.Timestamp created = 2;
+  google.protobuf.Timestamp updated = 3;
+  google.protobuf.Timestamp lastSeen = 4;
+  string hostname = 5;
+  string address = 6;
+  string manufacturer = 7;
+  string product = 8;
+  string productVersion = 9;
+  string serialNumber = 10;
+  string biosVendor = 11; // PC
+  string biosDate = 12; // PC
+  string biosVersion = 13; // PC
+  string bootRomVersion = 14; // Apple
+  string smcVersion = 15; // Apple
+  uint64 memoryB = 16;
+  uint32 memoryGb = 17;
+  uint32 cpuCoresPerSocket = 18;
+  uint32 cpuPhysicalCores = 19;
+  uint32 cpuLogicalCores = 20;
+  uint32 cpuSockets = 21;
+  uint32 cpuThreadsPerCore = 22;
+  string cpuModel = 23;
+  string cpuFlags = 24;
+  string os = 25;
+  string osVersion = 26;
+  string osBuild = 27;
+  string osDescription = 28;
+  string kernel = 29;
+  string kernelVersion = 30;
+  string kernelRelease = 31;
+}
+
+message KeepAliveRequest {
+  string uuid = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message SystemList {
+  repeated System systems = 1;
+}
+
+message SingleRequest {
+  string uuid = 1;
+}
+
+message ListRequest {
+  int64 num = 1;
+  string cursor = 2;
+}
