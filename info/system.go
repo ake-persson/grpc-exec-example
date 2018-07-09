@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mickep76/runshit/color"
-	"github.com/mickep76/runshit/ts"
+	"github.com/mickep76/grpc-exec-example/color"
+	"github.com/mickep76/grpc-exec-example/ts"
 )
 
 func (s *System) FmtStringColor(addr string) string {

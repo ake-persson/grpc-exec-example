@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io"
 	"log"
 	"net"
 	"os"
@@ -12,11 +11,10 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
-	pb_auth "github.com/mickep76/runshit/auth"
-	"github.com/mickep76/runshit/config"
-	pb_info "github.com/mickep76/runshit/info"
-	"github.com/mickep76/runshit/system"
-	"github.com/mickep76/runshit/ts"
+	pb_auth "github.com/mickep76/grpc-exec-example/auth"
+	"github.com/mickep76/grpc-exec-example/conf"
+	pb_info "github.com/mickep76/grpc-exec-example/info"
+	"github.com/mickep76/grpc-exec-example/system"
 )
 
 type server struct {
@@ -24,11 +22,11 @@ type server struct {
 	jwt    *jwt.JWTClient
 }
 
-func newServer(auth string, ca string, insecure bool) (*server, error) {
+func newServer(auth string, ca string) (*server, error) {
 	// Get public key from authentication service.
-	k, err := pb_auth.GetPublicKey(auth, ca, insecure)
+	k, err := pb_auth.GetPublicKey(auth, ca, false)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	s := &server{}
@@ -72,29 +70,25 @@ func (s *server) ListSystems(ctx context.Context, in *pb_info.ListRequest) (*pb_
 
 func main() {
 	c := newConfig()
-	if err := config.Load(c, []string{"/etc/runshit-info.toml", "~/.runshit-info.toml"}); err != nil {
-		log.Fatal(err)
+	if err := conf.Load([]string{"/etc/runshit-info.toml", "~/.runshit-info.toml"}, c); err != nil {
+		log.Fatalf("config: %v", err)
 	}
-	c.SetFlags()
+	fl := c.setFlags()
+	conf.ParseFlags(fl, os.Args, c)
 
-	pubKey, err := pb_auth.GetPublicKey(c.AuthClient.Address, c.AuthClient.CA, c.AuthClient.Insecure)
+	creds, err := credentials.NewServerTLSFromFile(c.Cert, c.Key)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	creds, err := credentials.NewServerTLSFromFile(c.Info.Cert, c.Info.Key)
-	if err != nil {
-		log.Fatalf("credentials: %v", err)
+		log.Fatalf("tls: %v", err)
 	}
 
-	lis, err := net.Listen("tcp", c.Info.Bind)
+	lis, err := net.Listen("tcp", c.Bind)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("listen: %v", err)
 	}
 
-	srvr, err := NewServer(pubKey)
+	srvr, err := newServer(c.Auth, c.Ca)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("server: %v", err)
 	}
 
 	s := grpc.NewServer(grpc.Creds(creds))
@@ -102,6 +96,6 @@ func main() {
 
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		log.Fatalf("serve: %v", err)
 	}
 }

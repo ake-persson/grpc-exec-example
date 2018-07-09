@@ -11,7 +11,7 @@ import (
 	_ "github.com/mickep76/encdec/toml"
 )
 
-func load(fn string, c *Config) error {
+func load(fn string, c interface{}) error {
 	if strings.HasPrefix(fn, "~") {
 		fn = filepath.Join(os.Getenv("HOME"), strings.TrimPrefix(fn, "~"))
 	}
@@ -25,26 +25,22 @@ func load(fn string, c *Config) error {
 	return nil
 }
 
-func Load(files []string, config interface{}) error {
+func Load(files []string, c interface{}) error {
 	for _, f := range files {
-		if err := load(f, config); err != nil {
+		if err := load(f, c); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func ParseFlags(fl *flag.FlagSet, args []string) {
-	printConfig := fl.Bool("print-config", false, "Print config.")
+func ParseFlags(fl *flag.FlagSet, args []string, c interface{}) {
+	printConf := fl.Bool("print-conf", false, "Print config.")
 	fl.Parse(args)
 
-	if *printConfig {
-		c.printConfig()
+	if *printConf {
+		b, _ := encdec.ToBytes("toml", c)
+		fmt.Print(string(b))
+		os.Exit(0)
 	}
-}
-
-func PrintConfig() {
-	b, _ := encdec.ToBytes("toml", *c)
-	fmt.Print(string(b))
-	os.Exit(0)
 }

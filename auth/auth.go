@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/mickep76/runshit/tlscfg"
+	"github.com/mickep76/grpc-exec-example/tlscfg"
 )
 
 func GetPublicKey(addr string, ca string, insecure bool) ([]byte, error) {
