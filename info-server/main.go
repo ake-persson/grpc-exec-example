@@ -70,7 +70,7 @@ func (s *server) ListSystems(ctx context.Context, in *pb_info.ListRequest) (*pb_
 
 func main() {
 	c := newConfig()
-	if err := conf.Load([]string{"/etc/runshit-info.toml", "~/.runshit-info.toml"}, c); err != nil {
+	if err := conf.Load([]string{"/etc/info-server.toml", "~/.info-server.toml"}, c); err != nil {
 		log.Fatalf("config: %v", err)
 	}
 	fl := c.setFlags()

@@ -85,7 +85,7 @@ func (s *server) Exec(in *pb_exec.Command, stream pb_exec.ExecCommand_ExecServer
 
 func main() {
 	c := newConfig()
-	if err := conf.Load([]string{"/etc/runshit-exec.toml", "~/.runshit-exec.toml"}, c); err != nil {
+	if err := conf.Load([]string{"/etc/exec-server.toml", "~/.exec-server.toml"}, c); err != nil {
 		log.Fatalf("config: %v", err)
 	}
 	fl := c.setFlags()

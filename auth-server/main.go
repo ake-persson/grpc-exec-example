@@ -106,7 +106,7 @@ func (s *server) RenewToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_a
 
 func main() {
 	c := newConfig()
-	if err := conf.Load([]string{"/etc/runshit-exec.toml", "~/.runshit-exec.toml"}, c); err != nil {
+	if err := conf.Load([]string{"/etc/auth-server.toml", "~/.auth-server.toml"}, c); err != nil {
 		log.Fatalf("config: %v", err)
 	}
 	fl := c.setFlags()

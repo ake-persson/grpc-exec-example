@@ -15,8 +15,8 @@ type Config struct {
 
 func newConfig() *Config {
 	return &Config{
-		Auth: "runshit-auth:8080",
-		Bind: ":8080",
+		Auth: "auth-server:8080",
+		Bind: ":8082",
 		Ca:   "~/ca.pem",
 		Cert: "~/service.pem",
 		Key:  "~/service.key",
@@ -25,7 +25,7 @@ func newConfig() *Config {
 
 func usage(fl *flag.FlagSet) func() {
 	return func() {
-		fmt.Printf("Usage: runshit-exec [options]\n\nOptions:\n")
+		fmt.Printf("Usage: exec-server [options]\n\nOptions:\n")
 		fl.PrintDefaults()
 	}
 }

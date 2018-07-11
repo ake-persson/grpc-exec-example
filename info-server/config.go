@@ -19,11 +19,11 @@ type Config struct {
 
 func newConfig() *Config {
 	return &Config{
-		User:    "runshit-info",
+		User:    "info-server",
 		Token:   "~/service.tkn",
-		Auth:    "runshit-auth:8080",
-		Catalog: "runshit-catalog:8080",
-		Bind:    ":8080",
+		Auth:    "auth-server:8080",
+		Catalog: "catalog-server:8080",
+		Bind:    ":8081",
 		Ca:      "~/ca.pem",
 		Cert:    "~/service.pem",
 		Key:     "~/service.key",
@@ -32,7 +32,7 @@ func newConfig() *Config {
 
 func usage(fl *flag.FlagSet) func() {
 	return func() {
-		fmt.Printf("Usage: runshit-info [options]\n\nOptions:\n")
+		fmt.Printf("Usage: info-server [options]\n\nOptions:\n")
 		fl.PrintDefaults()
 	}
 }

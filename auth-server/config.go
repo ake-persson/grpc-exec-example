@@ -37,7 +37,7 @@ func newConfig() *Config {
 
 func usage(fl *flag.FlagSet) func() {
 	return func() {
-		fmt.Printf("Usage: runshit-exec [options]\n\nOptions:\n")
+		fmt.Printf("Usage: auth-server [options]\n\nOptions:\n")
 		fl.PrintDefaults()
 	}
 }
@@ -46,12 +46,12 @@ func (c *Config) setFlags() *flag.FlagSet {
 	fl := flag.NewFlagSet("", flag.ExitOnError)
 	fl.Usage = usage(fl)
 
-	fl.StringVar(&c.Backend, "backend", c.Addr, "Backend either ad or ldap.")
+	fl.StringVar(&c.Backend, "backend", c.Backend, "Backend either ad or ldap.")
 	fl.StringVar(&c.Addr, "addr", c.Addr, "LDAP server address.")
 	fl.StringVar(&c.Base, "base", c.Base, "LDAP base.")
 	fl.StringVar(&c.Domain, "domain", c.Domain, "LDAP domain.")
-	fl.StringVar(&c.PrivKey, "priv-key", c.Domain, "JWT private RSA key.")
-	fl.StringVar(&c.PublKey, "publ-key", c.Domain, "JWT public RSA key.")
+	fl.StringVar(&c.PrivKey, "priv-key", c.PrivKey, "JWT private RSA key.")
+	fl.StringVar(&c.PublKey, "publ-key", c.PublKey, "JWT public RSA key.")
 	fl.IntVar(&c.Skew, "skew", c.Skew, "JWT token time skew in seconds.")
 	fl.IntVar(&c.Expiration, "expiration", c.Expiration, "JWT token expiration in seconds.")
 	fl.StringVar(&c.Bind, "bind", c.Bind, "Bind server to address.")
