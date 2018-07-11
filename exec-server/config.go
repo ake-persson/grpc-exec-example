@@ -15,7 +15,7 @@ type Config struct {
 
 func newConfig() *Config {
 	return &Config{
-		Auth: "auth-server:8080",
+		Auth: "localhost:8080",
 		Bind: ":8082",
 		Ca:   "~/ca.pem",
 		Cert: "~/service.pem",

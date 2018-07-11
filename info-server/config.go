@@ -21,8 +21,8 @@ func newConfig() *Config {
 	return &Config{
 		User:    "info-server",
 		Token:   "~/service.tkn",
-		Auth:    "auth-server:8080",
-		Catalog: "catalog-server:8080",
+		Auth:    "localhost:8080",
+		Catalog: "localhost:8084",
 		Bind:    ":8081",
 		Ca:      "~/ca.pem",
 		Cert:    "~/service.pem",
