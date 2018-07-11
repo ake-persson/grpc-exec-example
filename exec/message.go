@@ -3,7 +3,7 @@ package exec
 import (
 	"fmt"
 
-	"github.com/mickep76/runshit/color"
+	"github.com/mickep76/grpc-exec-example/color"
 )
 
 func (m *Message) FmtString() string {

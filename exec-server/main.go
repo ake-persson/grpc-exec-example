@@ -13,23 +13,32 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
-	pb_auth "github.com/mickep76/runshit/auth"
-	"github.com/mickep76/runshit/cmd"
-	"github.com/mickep76/runshit/config"
-	pb_exec "github.com/mickep76/runshit/exec"
-	"github.com/mickep76/runshit/ts"
+	pb_auth "github.com/mickep76/grpc-exec-example/auth"
+	"github.com/mickep76/grpc-exec-example/cmd"
+	"github.com/mickep76/grpc-exec-example/conf"
+	pb_exec "github.com/mickep76/grpc-exec-example/exec"
+	"github.com/mickep76/grpc-exec-example/ts"
 )
 
 type server struct {
 	jwt *jwt.JWTClient
 }
 
-func NewServer(b []byte) (*server, error) {
-	j, err := jwt.NewJWTClient(jwt.WithPublicKey(b))
+func newServer(auth string, ca string) (*server, error) {
+	// Get public key from authentication service.
+	k, err := pb_auth.GetPublicKey(auth, ca, false)
 	if err != nil {
 		return nil, err
 	}
-	return &server{j}, nil
+
+	s := &server{}
+
+	// Create new jwt client.
+	if s.jwt, err = jwt.NewJWTClient(jwt.WithPublicKey(k)); err != nil {
+		return nil, err
+	}
+
+	return s, nil
 }
 
 func (s *server) Exec(in *pb_exec.Command, stream pb_exec.ExecCommand_ExecServer) error {
@@ -75,26 +84,24 @@ func (s *server) Exec(in *pb_exec.Command, stream pb_exec.ExecCommand_ExecServer
 }
 
 func main() {
-	c := config.NewConfig()
-	c.LoadConfig()
-	c.ParseExecServerFlags(os.Args[1:])
-
-	pubKey, err := pb_auth.GetPublicKey(c.AuthClient.Address, c.AuthClient.CA, c.AuthClient.Insecure)
-	if err != nil {
-		log.Fatal(err)
+	c := newConfig()
+	if err := conf.Load([]string{"/etc/runshit-exec.toml", "~/.runshit-exec.toml"}, c); err != nil {
+		log.Fatalf("config: %v", err)
 	}
+	fl := c.setFlags()
+	conf.ParseFlags(fl, os.Args[1:], c)
 
-	creds, err := credentials.NewServerTLSFromFile(c.Exec.Cert, c.Exec.Key)
+	creds, err := credentials.NewServerTLSFromFile(c.Cert, c.Key)
 	if err != nil {
 		log.Fatalf("credentials: %v", err)
 	}
 
-	lis, err := net.Listen("tcp", c.Exec.Bind)
+	lis, err := net.Listen("tcp", c.Bind)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	srvr, err := NewServer(pubKey)
+	srvr, err := newServer(c.Auth, c.Ca)
 	if err != nil {
 		log.Fatal(err)
 	}

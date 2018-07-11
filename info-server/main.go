@@ -74,7 +74,7 @@ func main() {
 		log.Fatalf("config: %v", err)
 	}
 	fl := c.setFlags()
-	conf.ParseFlags(fl, os.Args, c)
+	conf.ParseFlags(fl, os.Args[1:], c)
 
 	creds, err := credentials.NewServerTLSFromFile(c.Cert, c.Key)
 	if err != nil {
