@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"sync"
+
+	"github.com/mickep76/grpc-exec-example/client/login"
 )
 
 var (
@@ -39,19 +41,21 @@ func main() {
 
 	switch os.Args[1] {
 	case "login":
-		loginCmd(os.Args[2:])
-	case "verify":
-		verifyCmd(os.Args[2:])
-	case "renew":
-		renewCmd(os.Args[2:])
-	case "info":
-		infoCmd(os.Args[2:])
-	case "register":
-		registerCmd(os.Args[2:])
-	case "list":
-		listCmd(os.Args[2:])
-	case "exec":
-		execCmd(os.Args[2:])
+		login.Cmd(os.Args[2:])
+		/*
+			case "verify":
+				verifyCmd(os.Args[2:])
+			case "renew":
+				renewCmd(os.Args[2:])
+			case "info":
+				infoCmd(os.Args[2:])
+			case "register":
+				registerCmd(os.Args[2:])
+			case "list":
+				listCmd(os.Args[2:])
+			case "exec":
+				execCmd(os.Args[2:])
+		*/
 	default:
 		usage()
 	}
