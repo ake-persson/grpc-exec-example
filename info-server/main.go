@@ -1,9 +1,11 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
 	"net"
 	"os"
+	"time"
 
 	"github.com/mickep76/auth/jwt"
 	"golang.org/x/net/context"
@@ -15,6 +17,7 @@ import (
 	"github.com/mickep76/grpc-exec-example/conf"
 	pb_info "github.com/mickep76/grpc-exec-example/info"
 	"github.com/mickep76/grpc-exec-example/system"
+	"github.com/mickep76/grpc-exec-example/ts"
 )
 
 type server struct {
@@ -66,6 +69,47 @@ func (s *server) KeepAlive(stream pb_info.Info_KeepAliveServer) error {
 // ListSystems placeholder required by interface.
 func (s *server) ListSystems(ctx context.Context, in *pb_info.ListRequest) (*pb_info.SystemList, error) {
 	return nil, nil
+}
+
+func register(c *Config, cfg *tls.Config, creds credentials.PerRPCCredentials) {
+	conn, err := grpc.Dial(c.Catalog,
+		grpc.WithTransportCredentials(credentials.NewTLS(cfg)),
+		grpc.WithPerRPCCredentials(creds))
+	if err != nil {
+		log.Printf("connect: %v", err)
+		return
+	}
+	defer conn.Close()
+
+	clnt := pb_info.NewInfoClient(conn)
+
+	ctx := context.Background()
+
+	s, err := system.Get()
+	if err != nil {
+		log.Printf("get system: %v", err)
+		return
+	}
+
+	system, err := clnt.Register(ctx, s)
+	if err != nil {
+		log.Printf("info: %v", err)
+		return
+	}
+
+	stream, err := clnt.KeepAlive(ctx)
+	if err != nil {
+		log.Printf("keep alive: %v", err)
+		return
+	}
+
+	for {
+		now := ts.Now().Timestamp()
+		req := &pb_info.KeepAliveRequest{Uuid: system.Uuid, Timestamp: &now}
+		log.Printf("keep alive: %v", req)
+		stream.Send(req)
+		time.Sleep(5 * time.Second)
+	}
 }
 
 func main() {
