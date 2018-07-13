@@ -66,7 +66,7 @@ func exec(c *Config, idx int, addr string, cfg *tls.Config, creds credentials.Pe
 			b, _ := json.MarshalIndent(m, "", "  ")
 			fmt.Println(string(b))
 		} else {
-			if len(c.Addrs) > 1 {
+			if len(c.Targets) > 1 {
 				fmt.Print(m.FmtStringColor(idx, addr))
 			} else {
 				fmt.Print(m.FmtString())
@@ -89,7 +89,7 @@ func Cmd(args []string) {
 		os.Exit(0)
 	}
 
-	c.Addrs = strings.Split(fl.Args()[0], ",")
+	c.Targets = strings.Split(fl.Args()[0], ",")
 	c.Cmd = fl.Args()[1]
 	if len(fl.Args()) > 2 {
 		c.Args = fl.Args()[2:]
@@ -105,7 +105,7 @@ func Cmd(args []string) {
 		log.Fatal(err)
 	}
 
-	for i, addr := range c.Addrs {
+	for i, addr := range c.Targets {
 		tot++
 		wg.Add(1)
 		go exec(c, i, addr, tlsCfg, token)
@@ -113,7 +113,7 @@ func Cmd(args []string) {
 
 	wg.Wait()
 
-	if len(c.Addrs) > 1 {
+	if len(c.Targets) > 1 {
 		fmt.Fprintf(os.Stderr, "\nTotal: %d\n%sSuccess:%s %d\n%sFailed:%s %d\n", tot, color.Green, color.Reset, succ, color.Red, color.Reset, tot-succ)
 	}
 }

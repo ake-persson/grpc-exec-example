@@ -16,7 +16,7 @@ type Config struct {
 	AsUser  string
 	AsGroup string
 	InDir   string
-	Addrs   []string
+	Targets []string
 }
 
 type StringList []string

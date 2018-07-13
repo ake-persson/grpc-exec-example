@@ -71,7 +71,7 @@ func Cmd(args []string) {
 		usage(fl)
 		os.Exit(0)
 	}
-	addrs := strings.Split(fl.Args()[0], ",")
+	c.Targets = strings.Split(fl.Args()[0], ",")
 
 	tlsCfg, err := tlscfg.NewConfig(c.Ca, "", "", "", false)
 	if err != nil {
@@ -83,7 +83,7 @@ func Cmd(args []string) {
 		log.Fatal(err)
 	}
 
-	for i, addr := range addrs {
+	for i, addr := range c.Targets {
 		tot++
 		wg.Add(1)
 		go info(c, i, addr, tlsCfg, token)
@@ -91,7 +91,7 @@ func Cmd(args []string) {
 
 	wg.Wait()
 
-	if len(addrs) > 1 {
+	if len(c.Targets) > 1 {
 		fmt.Fprintf(os.Stderr, "Total: %d\n%sSuccess:%s %d\n%sFailed:%s %d\n", tot, color.Green, color.Reset, succ, color.Red, color.Reset, tot-succ)
 	}
 }

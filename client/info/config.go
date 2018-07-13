@@ -6,9 +6,10 @@ import (
 )
 
 type Config struct {
-	Token  string `toml:"token,omitempty"`
-	Ca     string `toml:"ca,omitempty"`
-	AsJson bool
+	Token   string `toml:"token,omitempty"`
+	Ca      string `toml:"ca,omitempty"`
+	AsJson  bool
+	Targets []string
 }
 
 func newConfig() *Config {
