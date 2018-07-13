@@ -3,7 +3,6 @@ package info
 import (
 	"flag"
 	"fmt"
-	"os/user"
 )
 
 type Config struct {

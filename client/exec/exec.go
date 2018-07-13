@@ -1,9 +1,10 @@
-package info
+package exec
 
 import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -11,13 +12,14 @@ import (
 	"time"
 
 	"github.com/mickep76/auth/jwt"
+	"github.com/pborman/uuid"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
 	"github.com/mickep76/grpc-exec-example/color"
 	"github.com/mickep76/grpc-exec-example/conf"
-	pb_info "github.com/mickep76/grpc-exec-example/info"
+	pb_exec "github.com/mickep76/grpc-exec-example/exec"
 	"github.com/mickep76/grpc-exec-example/tlscfg"
 )
 
@@ -27,7 +29,7 @@ var (
 	succ int
 )
 
-func info(c *Config, idx int, addr string, cfg *tls.Config, creds credentials.PerRPCCredentials) {
+func exec(c *Config, idx int, addr string, cfg *tls.Config, creds credentials.PerRPCCredentials) {
 	defer wg.Done()
 
 	conn, err := grpc.Dial(addr,
@@ -39,22 +41,37 @@ func info(c *Config, idx int, addr string, cfg *tls.Config, creds credentials.Pe
 	}
 	defer conn.Close()
 
-	clnt := pb_info.NewInfoClient(conn)
+	clnt := pb_exec.NewExecCommandClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	s, err := clnt.GetSystem(ctx, &pb_info.Empty{})
+	stream, err := clnt.Exec(ctx, &pb_exec.Command{Uuid: uuid.New(), Command: c.Cmd, Arguments: c.Args, Environment: c.Env, User: c.AsUser, Group: c.AsGroup, Directory: c.InDir})
 	if err != nil {
-		log.Printf("info: %v", err)
+		log.Printf("exec: %v", err)
 		return
 	}
 
-	if c.AsJson {
-		b, _ := json.MarshalIndent(s, "", "  ")
-		fmt.Println(string(b))
-	} else {
-		fmt.Print(s.FmtStringColor(addr))
+	for {
+		m, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+		if c.AsJson {
+			b, _ := json.MarshalIndent(m, "", "  ")
+			fmt.Println(string(b))
+		} else {
+			if len(c.Addrs) > 1 {
+				fmt.Print(m.FmtStringColor(idx, addr))
+			} else {
+				fmt.Print(m.FmtString())
+			}
+		}
 	}
 	succ++
 }
@@ -67,11 +84,16 @@ func Cmd(args []string) {
 	fl := c.setFlags()
 	conf.ParseFlags(fl, args, c)
 
-	if len(fl.Args()) < 1 {
+	if len(fl.Args()) < 2 {
 		usage(fl)
 		os.Exit(0)
 	}
-	addrs := strings.Split(fl.Args()[0], ",")
+
+	c.Addrs = strings.Split(fl.Args()[0], ",")
+	c.Cmd = fl.Args()[1]
+	if len(fl.Args()) > 2 {
+		c.Args = fl.Args()[2:]
+	}
 
 	tlsCfg, err := tlscfg.NewConfig(c.Ca, "", "", "", false)
 	if err != nil {
@@ -83,15 +105,15 @@ func Cmd(args []string) {
 		log.Fatal(err)
 	}
 
-	for i, addr := range addrs {
+	for i, addr := range c.Addrs {
 		tot++
 		wg.Add(1)
-		go info(c, i, addr, tlsCfg, token)
+		go exec(c, i, addr, tlsCfg, token)
 	}
 
 	wg.Wait()
 
-	if len(addrs) > 1 {
-		fmt.Fprintf(os.Stderr, "Total: %d\n%sSuccess:%s %d\n%sFailed:%s %d\n", tot, color.Green, color.Reset, succ, color.Red, color.Reset, tot-succ)
+	if len(c.Addrs) > 1 {
+		fmt.Fprintf(os.Stderr, "\nTotal: %d\n%sSuccess:%s %d\n%sFailed:%s %d\n", tot, color.Green, color.Reset, succ, color.Red, color.Reset, tot-succ)
 	}
 }
