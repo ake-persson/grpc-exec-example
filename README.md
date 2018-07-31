@@ -3,6 +3,7 @@
 First generate Certificates for localhost.
 
 ```bash
+make preq
 cd tls_setup
 make
 ```
