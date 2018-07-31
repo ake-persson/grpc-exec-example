@@ -17,9 +17,9 @@ func newConfig() *Config {
 	return &Config{
 		Auth: "localhost:8080",
 		Bind: ":8082",
-		Ca:   "../tls_setup/ca.pem",
-		Cert: "../tls_setup/exec.pem",
-		Key:  "../tls_setup/exec.key",
+		Ca:   "../tls_setup/certs/ca.pem",
+		Cert: "../tls_setup/certs/exec.pem",
+		Key:  "../tls_setup/certs/exec.key",
 	}
 }
 
