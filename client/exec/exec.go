@@ -108,7 +108,11 @@ func Cmd(args []string) {
 	for i, addr := range c.Targets {
 		tot++
 		wg.Add(1)
-		go exec(c, i, addr, tlsCfg, token)
+		if strings.Contains(addr, ":") {
+			go exec(c, i, addr, tlsCfg, token)
+		} else {
+			go exec(c, i, fmt.Sprintf("%s:%d", addr, c.DefPort), tlsCfg, token)
+		}
 	}
 
 	wg.Wait()

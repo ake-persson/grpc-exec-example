@@ -16,7 +16,7 @@ func newConfig() *Config {
 	return &Config{
 		Token:  "~/service.tkn",
 		Auth:   "localhost:8080",
-		Ca:     "~/ca.pem",
+		Ca:     "../tls_setup/certs/ca.pem",
 		AsJson: false,
 	}
 }

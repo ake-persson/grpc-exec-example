@@ -16,6 +16,7 @@ type Config struct {
 	AsUser  string
 	AsGroup string
 	InDir   string
+	DefPort int
 	Targets []string
 }
 
@@ -33,7 +34,7 @@ func (s *StringList) Set(v string) error {
 func newConfig() *Config {
 	return &Config{
 		Token:  "~/service.tkn",
-		Ca:     "~/ca.pem",
+		Ca:     "../tls_setup/certs/ca.pem",
 		AsJson: false,
 	}
 }
@@ -56,6 +57,7 @@ func (c *Config) setFlags() *flag.FlagSet {
 	fl.StringVar(&c.AsUser, "user", "", "As user.")
 	fl.StringVar(&c.AsGroup, "group", "", "As group.")
 	fl.StringVar(&c.InDir, "dir", "", "In directory.")
+	fl.IntVar(&c.DefPort, "def-port", 8082, "Default port for exec-server.")
 
 	return fl
 }

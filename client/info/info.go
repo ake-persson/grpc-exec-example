@@ -86,7 +86,11 @@ func Cmd(args []string) {
 	for i, addr := range c.Targets {
 		tot++
 		wg.Add(1)
-		go info(c, i, addr, tlsCfg, token)
+		if strings.Contains(addr, ":") {
+			go info(c, i, addr, tlsCfg, token)
+		} else {
+			go info(c, i, fmt.Sprintf("%s:%d", addr, c.DefPort), tlsCfg, token)
+		}
 	}
 
 	wg.Wait()
