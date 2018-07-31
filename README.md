@@ -1,6 +1,6 @@
 ## Create TLS Certificates
 
-First generate Certificates for localhost.
+First generate TLS Certificates for localhost and RSA public/private key.
 
 ```bash
 cd tls_setup
@@ -9,12 +9,11 @@ make preq ca req
 
 ## Build auth-server
 
-Start by compiling the auth-server.
+Build the auth-server.
 
 ```bash
 cd auth-server
 go build
-./auth-server
 ```
 
 You can set the specific LDAP/AD settings in **~/.auth-server.toml**.
@@ -24,6 +23,12 @@ addr = "dc.example.com:389"
 backend = "ad"
 base = "DC=example,DC=com"
 domain = "example"
+```
+
+Start auth-server.
+
+```bash
+./auth-server
 ```
 
 ## Build info-server
