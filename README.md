@@ -56,7 +56,7 @@ cd client
 go build
 ```
 
-Generate a JWT token by loggin in.
+Generate a JWT token by logging in.
 
 ```bash
 ./client login

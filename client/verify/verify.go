@@ -62,6 +62,6 @@ func Cmd(args []string) {
 		b, _ := json.MarshalIndent(t, "", "  ")
 		fmt.Println(string(b))
 	} else {
-		fmt.Print(t)
+		fmt.Print(t.FmtStringColor())
 	}
 }
