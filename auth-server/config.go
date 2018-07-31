@@ -29,9 +29,8 @@ func newConfig() *Config {
 		Skew:       300,
 		Expiration: 86400,
 		Bind:       ":8080",
-		//		Ca:         "../tls_setup/certs/ca.pem",
-		Cert: "../tls_setup/certs/auth.pem",
-		Key:  "../tls_setup/certs/auth.key",
+		Cert:       "../tls_setup/certs/auth.pem",
+		Key:        "../tls_setup/certs/auth.key",
 	}
 }
 
