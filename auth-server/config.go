@@ -24,14 +24,14 @@ func newConfig() *Config {
 	return &Config{
 		Backend:    "ldap",
 		Addr:       "ldap:389",
-		PrivKey:    "../tls_setup/certs/public.rsa",
-		PublKey:    "../tls_setup/certs/private.rsa",
+		PrivKey:    "../tls_setup/certs/private.rsa",
+		PublKey:    "../tls_setup/certs/public.rsa",
 		Skew:       300,
 		Expiration: 86400,
 		Bind:       ":8080",
-		Ca:         "../tls_setup/certs/ca.pem",
-		Cert:       "../tls_setup/certs/auth.pem",
-		Key:        "../tls_setup/certs/auth.key",
+		//		Ca:         "../tls_setup/certs/ca.pem",
+		Cert: "../tls_setup/certs/auth.pem",
+		Key:  "../tls_setup/certs/auth.key",
 	}
 }
 
