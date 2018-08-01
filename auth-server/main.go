@@ -16,6 +16,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/reflection"
 
 	pb_auth "github.com/mickep76/grpc-exec-example/auth"
@@ -33,6 +34,9 @@ func (s *server) GetPublicKey(ctx context.Context, in *pb_auth.Empty) (*pb_auth.
 }
 
 func (s *server) LoginUser(ctx context.Context, in *pb_auth.Login) (*pb_auth.SignedToken, error) {
+	p, _ := peer.FromContext(ctx)
+	log.Printf("%+v", p.Addr)
+
 	tokenUUID := uuid.New()
 	log.Printf("%s request login user %s", tokenUUID, in.Username)
 
