@@ -2,3 +2,4 @@
 - Keep-alive with Catalog
 - Cmd exec with context timeout
 - Issue CRS for agent cert. when connecting first time, either auto accept or manual accept
+- Extend exec pb with cmd funcs

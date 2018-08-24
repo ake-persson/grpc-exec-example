@@ -71,10 +71,12 @@ func (c Code) String() string {
 	return fmt.Sprintf("\x1b[%dm", c)
 }
 
+// Fg256 foreground 256 colors
 func Fg256(c uint8) string {
 	return fmt.Sprintf("\x1b[38;5;%dm", c)
 }
 
+// Bg256 background 256 colors
 func Bg256(c uint8) string {
 	return fmt.Sprintf("\x1b[48;5;%dm", c)
 }
