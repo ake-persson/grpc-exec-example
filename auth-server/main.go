@@ -72,7 +72,7 @@ func (s *server) LoginUser(ctx context.Context, in *pb_auth.Login) (*pb_auth.Sig
 		return nil, err
 	}
 
-	logPrintf(ctx, in.Username, "%s logged in user", tokenUUID)
+	logPrintf(ctx, in.Username, "%s issued token", tokenUUID)
 	return &pb_auth.SignedToken{Token: signed}, nil
 }
 
