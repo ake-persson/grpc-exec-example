@@ -29,24 +29,28 @@ type server struct {
 	auth auth.Conn
 }
 
-func logPrint(ctx context.Context, user string, v ...interface{}) {
+func logPrint(ctx context.Context, uuid string, user string, v ...interface{}) {
 	p, _ := peer.FromContext(ctx)
-	if user == "" {
-		v = append([]interface{}{fmt.Sprintf("%s %s ", p.Addr, "none")}, v...)
-		log.Print(v...)
-		return
+	if uuid == "" {
+		uuid = "none"
 	}
-	v = append([]interface{}{fmt.Sprintf("%s %s ", p.Addr, user)}, v...)
+	if user == "" {
+		user = "none"
+	}
+	v = append([]interface{}{fmt.Sprintf("%s %s %s ", p.Addr, uuid, user)}, v...)
 	log.Print(v...)
 }
 
-func logPrintf(ctx context.Context, user string, f string, v ...interface{}) {
+func logPrintf(ctx context.Context, uuid string, user string, f string, v ...interface{}) {
 	p, _ := peer.FromContext(ctx)
-	if user == "" {
-		log.Printf(fmt.Sprintf("%s %s ", p.Addr, "none")+f, v...)
-		return
+	if uuid == "" {
+		uuid = "none"
 	}
-	log.Printf(fmt.Sprintf("%s %s ", p.Addr, user)+f, v...)
+	if user == "" {
+		user = "none"
+	}
+	v = append([]interface{}{fmt.Sprintf("%s %s %s ", p.Addr, uuid, user)}, v...)
+	log.Printf("%s"+f, v...)
 }
 
 func (s *server) GetPublicKey(ctx context.Context, in *pb_auth.Empty) (*pb_auth.PublicKey, error) {
@@ -58,8 +62,8 @@ func (s *server) LoginUser(ctx context.Context, in *pb_auth.Login) (*pb_auth.Sig
 
 	u, err := s.auth.Login(in.Username, in.Password)
 	if err != nil {
-		err = fmt.Errorf("%s login: %v", tokenUUID, err)
-		logPrint(ctx, in.Username, err)
+		err = fmt.Errorf("login: %v", err)
+		logPrint(ctx, tokenUUID, in.Username, err)
 		return nil, err
 	}
 	u.UUID = tokenUUID
@@ -67,12 +71,12 @@ func (s *server) LoginUser(ctx context.Context, in *pb_auth.Login) (*pb_auth.Sig
 	t := s.jwt.NewToken(u)
 	signed, err := s.jwt.SignToken(t)
 	if err != nil {
-		err = fmt.Errorf("%s sign token: %v", tokenUUID, err)
-		logPrint(ctx, in.Username, err)
+		err = fmt.Errorf("sign token: %v", err)
+		logPrint(ctx, tokenUUID, in.Username, err)
 		return nil, err
 	}
 
-	logPrintf(ctx, in.Username, "%s issued token", tokenUUID)
+	logPrintf(ctx, tokenUUID, in.Username, "issued token")
 	return &pb_auth.SignedToken{Token: signed}, nil
 }
 
@@ -80,7 +84,7 @@ func (s *server) VerifyToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_
 
 	t, err := s.jwt.ParseToken(in.Token)
 	if err != nil {
-		logPrint(ctx, "", err)
+		logPrint(ctx, "", "", err)
 		return nil, err
 	}
 
@@ -88,7 +92,7 @@ func (s *server) VerifyToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_
 	issuedAt := ts.Seconds(c.IssuedAt).Timestamp()
 	expiresAt := ts.Seconds(c.ExpiresAt).Timestamp()
 
-	logPrintf(ctx, c.Username, "%s verified token", c.UUID)
+	logPrintf(ctx, c.UUID, c.Username, "verified token")
 
 	return &pb_auth.Token{
 		Uuid:      c.UUID,
@@ -105,7 +109,7 @@ func (s *server) VerifyToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_
 func (s *server) RenewToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_auth.SignedToken, error) {
 	t, err := s.jwt.ParseToken(in.Token)
 	if err != nil {
-		logPrint(ctx, "", err)
+		logPrint(ctx, "", "", err)
 		return nil, err
 	}
 	c := t.Claims.(*jwt.Claims)
@@ -113,11 +117,11 @@ func (s *server) RenewToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_a
 	s.jwt.RenewToken(t)
 	signed, err := s.jwt.SignToken(t)
 	if err != nil {
-		logPrint(ctx, c.Username, err)
+		logPrint(ctx, c.UUID, c.Username, err)
 		return nil, err
 	}
 
-	logPrintf(ctx, c.Username, "%s renewed token", c.UUID)
+	logPrintf(ctx, c.UUID, c.Username, "renewed token")
 	return &pb_auth.SignedToken{Token: signed}, nil
 }
 
