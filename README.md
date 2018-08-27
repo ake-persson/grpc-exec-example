@@ -1,12 +1,3 @@
-## Create TLS Certificates
-
-First generate TLS Certificates for localhost and RSA public/private key.
-
-```bash
-cd tls_setup
-make preq ca req
-```
-
 ## Setup Go
 
 First install Go and then configure $GOHOME.
@@ -32,14 +23,28 @@ EOF
 source ~/.bash_profile
 ```
 
-## Build auth-server
-
-Build the auth-server.
+## Clone code
 
 ```bash
 mkdir -p $GOHOME/src/github.com/mickep76
 cd $GOHOME/src/github.com/mickep76
 git clone https://github.com/mickep76/grpc-exec-example.git
+```
+
+## Create TLS Certificates
+  
+First generate TLS Certificates for localhost and RSA public/private key.
+
+```bash
+cd $GOHOME/src/github.com/mickep76/tls_setup
+make preq ca req
+```
+
+## Build auth-server
+
+Build the auth-server.
+
+```bash
 cd $GOHOME/src/github.com/mickep76/auth-server
 go build
 ```
