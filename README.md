@@ -1,3 +1,6 @@
+## Setup Go
+
+
 ## Create TLS Certificates
 
 First generate TLS Certificates for localhost and RSA public/private key.
@@ -5,6 +8,31 @@ First generate TLS Certificates for localhost and RSA public/private key.
 ```bash
 cd tls_setup
 make preq ca req
+```
+
+## Setup Go
+
+First install Go and then configure $GOHOME.
+
+### Mac OS X
+
+```bash
+brew install go
+```
+
+### RedHat/CentOS/Fedora
+
+```bash
+yum install go
+```
+
+### Setup $GOHOME
+```bash
+mkdir -p ~/go/src
+cat <<EOF>>~/.bash_profile
+export GOPATH=~/go
+EOF
+source ~/.bash_profile
 ```
 
 ## Build auth-server

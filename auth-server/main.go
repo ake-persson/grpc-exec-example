@@ -76,7 +76,7 @@ func (s *server) LoginUser(ctx context.Context, in *pb_auth.Login) (*pb_auth.Sig
 		return nil, err
 	}
 
-	logPrintf(ctx, tokenUUID, in.Username, "issued token")
+	logPrintf(ctx, tokenUUID, in.Username, "issue token")
 	return &pb_auth.SignedToken{Token: signed}, nil
 }
 
@@ -92,7 +92,7 @@ func (s *server) VerifyToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_
 	issuedAt := ts.Seconds(c.IssuedAt).Timestamp()
 	expiresAt := ts.Seconds(c.ExpiresAt).Timestamp()
 
-	logPrintf(ctx, c.UUID, c.Username, "verified token")
+	logPrintf(ctx, c.UUID, c.Username, "verify token")
 
 	return &pb_auth.Token{
 		Uuid:      c.UUID,
@@ -121,7 +121,7 @@ func (s *server) RenewToken(ctx context.Context, in *pb_auth.SignedToken) (*pb_a
 		return nil, err
 	}
 
-	logPrintf(ctx, c.UUID, c.Username, "renewed token")
+	logPrintf(ctx, c.UUID, c.Username, "renew token")
 	return &pb_auth.SignedToken{Token: signed}, nil
 }
 
