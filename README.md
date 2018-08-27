@@ -1,6 +1,6 @@
 ## Install Go
 
-First install Go and then configure $GOHOME.
+First install Go and then configure Go environment.
 
 ### Mac OS X
 
@@ -11,14 +11,14 @@ brew install go
 ### RedHat/CentOS/Fedora
 
 ```bash
-yum install go
+yum install golang
 ```
 
 ### Setup Go environment
 
 ```bash
 mkdir -p ~/go/src
-cat <<EOF>>~/.bash_profile
+cat << EOF >>~/.bash_profile
 export GOPATH=~/go
 EOF
 source ~/.bash_profile
