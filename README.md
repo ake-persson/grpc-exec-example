@@ -1,4 +1,4 @@
-## Setup Go
+## Install Go
 
 First install Go and then configure $GOHOME.
 
@@ -14,7 +14,8 @@ brew install go
 yum install go
 ```
 
-### Setup $GOHOME
+### Setup Go environment
+
 ```bash
 mkdir -p ~/go/src
 cat <<EOF>>~/.bash_profile
