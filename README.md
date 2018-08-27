@@ -1,6 +1,3 @@
-## Setup Go
-
-
 ## Create TLS Certificates
 
 First generate TLS Certificates for localhost and RSA public/private key.
