@@ -37,7 +37,10 @@ source ~/.bash_profile
 Build the auth-server.
 
 ```bash
-cd auth-server
+mkdir -p $GOHOME/src/github.com/mickep76
+cd $GOHOME/src/github.com/mickep76
+git clone https://github.com/mickep76/grpc-exec-example.git
+cd $GOHOME/src/github.com/mickep76/auth-server
 go build
 ```
 
@@ -59,7 +62,7 @@ Start auth-server.
 ## Build info-server
 
 ```bash
-cd auth-server
+cd $GOHOME/src/github.com/mickep76/info-server
 go build
 ./info-server
 ```
@@ -67,7 +70,7 @@ go build
 ## Build exec-server
 
 ```bash
-cd exec-server
+cd $GOHOME/src/github.com/mickep76/exec-server
 go build
 ./exec-server
 ```
@@ -77,7 +80,7 @@ go build
 Build the client so you can interact with the services.
 
 ```bash
-cd client
+cd $GOHOME/src/github.com/mickep76/client
 go build
 ```
 
