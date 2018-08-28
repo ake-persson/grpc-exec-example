@@ -42,6 +42,13 @@ cd $GOPATH/src/github.com/mickep76/grpc-exec-example/tls_setup
 make preq ca req
 ```
 
+## Download/update deps
+
+```bash
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example
+get get -u ./...
+```
+
 ## Build auth-server
 
 Build the auth-server.
