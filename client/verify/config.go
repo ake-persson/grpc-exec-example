@@ -14,7 +14,7 @@ type Config struct {
 
 func newConfig() *Config {
 	return &Config{
-		Token:  "~/service.tkn",
+		Token:  "~/.grpc-exec-example.tkn",
 		Auth:   "localhost:8080",
 		Ca:     "../tls_setup/certs/ca.pem",
 		AsJson: false,

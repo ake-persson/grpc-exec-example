@@ -20,7 +20,7 @@ type Config struct {
 func newConfig() *Config {
 	return &Config{
 		User:    "info-server",
-		Token:   "~/service.tkn",
+		Token:   "~/.grpc-exec-example.tkn",
 		Auth:    "localhost:8080",
 		Catalog: "localhost:8084",
 		Bind:    ":8081",

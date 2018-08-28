@@ -33,7 +33,7 @@ func (s *StringList) Set(v string) error {
 
 func newConfig() *Config {
 	return &Config{
-		Token:  "~/service.tkn",
+		Token:  "~/.grpc-exec-example.tkn",
 		Ca:     "../tls_setup/certs/ca.pem",
 		AsJson: false,
 	}

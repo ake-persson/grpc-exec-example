@@ -19,7 +19,7 @@ func newConfig() *Config {
 
 	return &Config{
 		User:  u.Username,
-		Token: "~/service.tkn",
+		Token: "~/.grpc-exec-example.tkn",
 		Auth:  "localhost:8080",
 		Ca:    "../tls_setup/certs/ca.pem",
 	}
