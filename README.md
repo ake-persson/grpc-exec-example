@@ -20,7 +20,7 @@ yum install golang
 mkdir -p ~/go/{src,bin}
 cat << EOF >>~/.bash_profile
 export GOPATH=~/go
-export PATH=$PATH:$GOPATH/bin
+export PATH=\$PATH:\$GOPATH/bin
 EOF
 source ~/.bash_profile
 ```
