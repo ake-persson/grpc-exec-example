@@ -27,8 +27,8 @@ source ~/.bash_profile
 ## Clone code
 
 ```bash
-mkdir -p $GOHOME/src/github.com/mickep76
-cd $GOHOME/src/github.com/mickep76
+mkdir -p $GOPATH/src/github.com/mickep76
+cd $GOPATH/src/github.com/mickep76
 git clone https://github.com/mickep76/grpc-exec-example.git
 ```
 
@@ -37,7 +37,7 @@ git clone https://github.com/mickep76/grpc-exec-example.git
 First generate TLS Certificates for localhost and RSA public/private key.
 
 ```bash
-cd $GOHOME/src/github.com/mickep76/tls_setup
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/tls_setup
 make preq ca req
 ```
 
@@ -46,7 +46,7 @@ make preq ca req
 Build the auth-server.
 
 ```bash
-cd $GOHOME/src/github.com/mickep76/auth-server
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/auth-server
 go build
 ```
 
@@ -68,7 +68,7 @@ Start auth-server.
 ## Build info-server
 
 ```bash
-cd $GOHOME/src/github.com/mickep76/info-server
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/info-server
 go build
 ./info-server
 ```
@@ -76,7 +76,7 @@ go build
 ## Build exec-server
 
 ```bash
-cd $GOHOME/src/github.com/mickep76/exec-server
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/exec-server
 go build
 ./exec-server
 ```
@@ -86,7 +86,7 @@ go build
 Build the client so you can interact with the services.
 
 ```bash
-cd $GOHOME/src/github.com/mickep76/client
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/client
 go build
 ```
 
