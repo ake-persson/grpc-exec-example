@@ -46,7 +46,7 @@ make preq ca req
 
 ```bash
 cd $GOPATH/src/github.com/mickep76/grpc-exec-example
-get get -u ./...
+go get -u ./...
 ```
 
 ## Build auth-server
