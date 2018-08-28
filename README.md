@@ -17,7 +17,7 @@ yum install golang
 ### Setup Go environment
 
 ```bash
-mkdir -p ~/go/src
+mkdir -p ~/go/{src,bin}
 cat << EOF >>~/.bash_profile
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
