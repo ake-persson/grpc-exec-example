@@ -22,7 +22,7 @@ func newConfig() *Config {
 		User:    "info-server",
 		Token:   "~/.grpc-exec-example.tkn",
 		Auth:    "localhost:8080",
-		Catalog: "localhost:8084",
+		Catalog: "localhost:8083",
 		Bind:    ":8081",
 		Ca:      "../tls_setup/certs/ca.pem",
 		Cert:    "../tls_setup/certs/info.pem",
