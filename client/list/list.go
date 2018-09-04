@@ -34,18 +34,20 @@ func list(c *Config, addr string, cfg *tls.Config, creds credentials.PerRPCCrede
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	s, err := clnt.ListSystems(ctx, &pb_info.ListRequest{})
+	systems, err := clnt.ListSystems(ctx, &pb_info.ListRequest{})
 	if err != nil {
 		log.Printf("list: %v", err)
 		return
 	}
 
-	//	if c.AsJson {
-	b, _ := json.MarshalIndent(s, "", "  ")
-	fmt.Println(string(b))
-	//	} else {
-	//		fmt.Print(s.FmtStringColor(addr))
-	//	}
+	if c.AsJson {
+		b, _ := json.MarshalIndent(systems, "", "  ")
+		fmt.Println(string(b))
+	} else {
+		for _, s := range systems.Systems {
+			fmt.Print(s.FmtStringColor(addr))
+		}
+	}
 }
 
 func Cmd(args []string) {
