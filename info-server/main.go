@@ -139,17 +139,19 @@ func main() {
 	s := grpc.NewServer(grpc.Creds(creds))
 	pb_info.RegisterInfoServer(s, srvr)
 
-	tlsCfg, err := tlscfg.NewConfig(c.Ca, "", "", "", false)
-	if err != nil {
-		log.Fatal(err)
-	}
+	if c.Register {
+		tlsCfg, err := tlscfg.NewConfig(c.Ca, "", "", "", false)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	token, err := jwt.LoadSignedToken(c.Token)
-	if err != nil {
-		log.Fatal(err)
-	}
+		token, err := jwt.LoadSignedToken(c.Token)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	go register(c, tlsCfg, token)
+		go register(c, tlsCfg, token)
+	}
 
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
