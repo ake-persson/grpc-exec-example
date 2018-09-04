@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
-	"strings"
 	"time"
 
 	"github.com/mickep76/auth/jwt"
@@ -58,12 +56,6 @@ func Cmd(args []string) {
 	fl := c.setFlags()
 	conf.ParseFlags(fl, args, c)
 
-	if len(fl.Args()) < 1 {
-		usage(fl)
-		os.Exit(0)
-	}
-	c.Targets = strings.Split(fl.Args()[0], ",")
-
 	tlsCfg, err := tlscfg.NewConfig(c.Ca, "", "", "", false)
 	if err != nil {
 		log.Fatal(err)
@@ -74,10 +66,5 @@ func Cmd(args []string) {
 		log.Fatal(err)
 	}
 
-	addr := c.Targets[0]
-	if strings.Contains(addr, ":") {
-		list(c, addr, tlsCfg, token)
-	} else {
-		list(c, fmt.Sprintf("%s:%d", addr, c.DefPort), tlsCfg, token)
-	}
+	list(c, c.Catalog, tlsCfg, token)
 }
