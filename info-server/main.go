@@ -17,6 +17,7 @@ import (
 	"github.com/mickep76/grpc-exec-example/conf"
 	pb_info "github.com/mickep76/grpc-exec-example/info"
 	"github.com/mickep76/grpc-exec-example/system"
+	"github.com/mickep76/grpc-exec-example/tlscfg"
 	"github.com/mickep76/grpc-exec-example/ts"
 )
 
@@ -137,6 +138,20 @@ func main() {
 
 	s := grpc.NewServer(grpc.Creds(creds))
 	pb_info.RegisterInfoServer(s, srvr)
+
+	if c.Register {
+		tlsCfg, err := tlscfg.NewConfig(c.Ca, "", "", "", false)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		token, err := jwt.LoadSignedToken(c.Token)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		go register(c, tlsCfg, token)
+	}
 
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {

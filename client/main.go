@@ -6,6 +6,7 @@ import (
 
 	"github.com/mickep76/grpc-exec-example/client/exec"
 	"github.com/mickep76/grpc-exec-example/client/info"
+	"github.com/mickep76/grpc-exec-example/client/list"
 	"github.com/mickep76/grpc-exec-example/client/login"
 	"github.com/mickep76/grpc-exec-example/client/renew"
 	"github.com/mickep76/grpc-exec-example/client/verify"
@@ -45,8 +46,8 @@ func main() {
 		renew.Cmd(os.Args[2:])
 	case "info":
 		info.Cmd(os.Args[2:])
-		//	case "list":
-		//		listCmd(os.Args[2:])
+	case "list":
+		list.Cmd(os.Args[2:])
 	case "exec":
 		exec.Cmd(os.Args[2:])
 	default:
