@@ -72,5 +72,10 @@ func Cmd(args []string) {
 		log.Fatal(err)
 	}
 
-	list(c, c.Targets[0], tlsCfg, token)
+	addr := c.Targets[0]
+	if strings.Contains(addr, ":") {
+		list(c, addr, tlsCfg, token)
+	} else {
+		list(c, fmt.Sprintf("%s:%d", addr, c.DefPort), tlsCfg, token)
+	}
 }
