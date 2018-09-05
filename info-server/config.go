@@ -50,7 +50,7 @@ func (c *Config) setFlags() *flag.FlagSet {
 	fl.StringVar(&c.Auth, "auth", c.Auth, "Authentication service address.")
 	fl.StringVar(&c.Catalog, "catalog", c.Catalog, "Catalog service address.")
 	fl.BoolVar(&c.Register, "register", c.Register, "Register with Catalog.")
-	fl.BoolVar(&c.QRCode, "qrcode", c.QRCode, "Print QR Code.")
+	fl.BoolVar(&c.QRCode, "qrcode", c.QRCode, "Print server uuid as QR Code.")
 	fl.StringVar(&c.Bind, "bind", c.Bind, "Bind server to address.")
 	fl.StringVar(&c.Ca, "ca", c.Ca, "TLS CA certificate.")
 	fl.StringVar(&c.Cert, "cert", c.Cert, "Service TLS certificate.")
