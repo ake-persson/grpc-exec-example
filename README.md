@@ -131,7 +131,7 @@ go build
 
 ## Restart info-server
 
-Stop info-server CTRL+C then start it with the option **__-register__**. This requires that you have created a token.
+Stop info-server CTRL+C then start it with the option **_-register_**. This requires that you have created a token.
 
 ```bash
 cd $GOPATH/src/github.com/mickep76/grpc-exec-example/info-server
