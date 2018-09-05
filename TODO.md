@@ -1,5 +1,8 @@
-- Register hosts and services in Catalog
-- Keep-alive with Catalog
 - Cmd exec with context timeout
 - Issue CRS for agent cert. when connecting first time, either auto accept or manual accept
 - Extend exec pb with cmd funcs
+- Generate host token with longer expiry
+- Use host uuid for token
+- Use client to issue token
+- Use roles to allow user to issue host token
+- Auto accept host token request
