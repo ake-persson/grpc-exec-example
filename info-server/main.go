@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/tls"
+	"fmt"
 	"log"
 	"net"
 	"os"
@@ -151,6 +152,14 @@ func main() {
 		}
 
 		go register(c, tlsCfg, token)
+	}
+
+	if c.QRCode {
+		qr, err := srvr.system.QRCode()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(qr)
 	}
 
 	reflection.Register(s)

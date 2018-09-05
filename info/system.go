@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/skip2/go-qrcode"
+
 	"github.com/mickep76/grpc-exec-example/color"
 	"github.com/mickep76/grpc-exec-example/ts"
 )
@@ -59,4 +61,13 @@ func (s *System) FmtStringColor(addr string) string {
 	txt += fmt.Sprintf(f, "Kernel Release", s.KernelRelease)
 	txt += "\n\n"
 	return txt
+}
+
+func (s *System) QRCode() (string, error) {
+	qr, err := qrcode.New(s.Uuid, qrcode.Medium)
+	if err != nil {
+		return "", fmt.Errorf("qr code: %v", err)
+	}
+
+	return qr.ToString(true), nil
 }
