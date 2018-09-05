@@ -118,3 +118,29 @@ Execute command on one or more hosts.
 ./client exec localhost /bin/ls -la /
 ./client exec localhost,localhost /bin/ls -la /
 ```
+
+## Build catalog-server
+
+Catalog server will allow each info-server to register and send a keep-alive.
+
+```bash
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/catalog-server
+go build
+./catalog-server
+```
+
+## Restart info-server
+
+Stop info server CTRL+C then start it with -register. This requires that you have created a token.
+
+```bash
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/info-server
+./info-server -register
+```
+
+## List hosts registered in catalog-server
+
+```bash
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/client
+./client list
+```
