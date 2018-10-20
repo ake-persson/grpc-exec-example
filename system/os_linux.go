@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	pb_info "github.com/mickep76/runshit/info"
+	pb_info "github.com/mickep76/grpc-exec-example/info"
 )
 
 func getOS(s *pb_info.System) error {

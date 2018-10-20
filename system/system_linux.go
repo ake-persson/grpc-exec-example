@@ -11,7 +11,7 @@ import (
 
 	"github.com/pborman/uuid"
 
-	pb_info "github.com/mickep76/runshit/info"
+	pb_info "github.com/mickep76/grpc-exec-example/info"
 )
 
 func readFile(fn string) (string, error) {

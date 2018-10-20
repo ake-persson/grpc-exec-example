@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	pb_info "github.com/mickep76/runshit/info"
+	pb_info "github.com/mickep76/grpc-exec-example/info"
 )
 
 func getCPU(s *pb_info.System) error {

@@ -14,6 +14,7 @@ linux:
 	cd auth-server && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 	cd exec-server && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 	cd info-server && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+	cd catalog-server && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 	cd client && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 
 .PHONY: proto linux
