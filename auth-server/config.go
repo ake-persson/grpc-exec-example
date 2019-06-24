@@ -18,6 +18,7 @@ type Config struct {
 	Ca         string `toml:"ca"`
 	Cert       string `toml:"cert"`
 	Key        string `toml:"key"`
+	Verify     bool   `toml:"verify"`
 }
 
 func newConfig() *Config {
@@ -31,6 +32,7 @@ func newConfig() *Config {
 		Bind:       ":8080",
 		Cert:       "../tls_setup/certs/auth.pem",
 		Key:        "../tls_setup/certs/auth.key",
+		Verify:     true,
 	}
 }
 
@@ -57,6 +59,7 @@ func (c *Config) setFlags() *flag.FlagSet {
 	fl.StringVar(&c.Ca, "ca", c.Ca, "TLS CA certificate.")
 	fl.StringVar(&c.Cert, "cert", c.Cert, "Service TLS certificate.")
 	fl.StringVar(&c.Key, "key", c.Key, "Service TLS key.")
+	fl.BoolVar(&c.Verify, "verify", c.Verify, "Verify client TLS cert.")
 
 	return fl
 }

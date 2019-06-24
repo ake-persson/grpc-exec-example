@@ -134,7 +134,8 @@ func main() {
 	conf.ParseFlags(fl, os.Args[1:], c)
 
 	cfg := &tls.Config{
-		ServerName: strings.Split(c.Addr, ":")[0], // Send SNI (Server Name Indication) for host that serves multiple aliases.
+		ServerName:         strings.Split(c.Addr, ":")[0], // Send SNI (Server Name Indication) for host that serves multiple aliases.
+		InsecureSkipVerify: c.Verify,
 	}
 
 	var err error
