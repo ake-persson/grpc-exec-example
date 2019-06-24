@@ -16,6 +16,12 @@ req:
 	cfssl gencert \
 	  -ca certs/ca.pem \
 	  -ca-key certs/ca.key \
+	  -config config/ca.json config/ldap.json | cfssljson -bare certs/ldap
+	mv certs/ldap-key.pem certs/ldap.key
+
+	cfssl gencert \
+	  -ca certs/ca.pem \
+	  -ca-key certs/ca.key \
 	  -config config/ca.json config/auth.json | cfssljson -bare certs/auth
 	mv certs/auth-key.pem certs/auth.key
 

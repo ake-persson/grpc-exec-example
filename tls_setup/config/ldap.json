@@ -1,5 +1,5 @@
 {
-  "CN": "auth",
+  "CN": "ldap",
   "hosts": [
     "localhost",
     "127.0.0.1"
@@ -11,8 +11,8 @@
   "names": [
     {
       "L": "US",
-      "O": "auth",
-      "OU": "example auth server"
+      "O": "ldap",
+      "OU": "example ldap server"
     }
   ]
 }
