@@ -8,3 +8,5 @@
 - Use roles to allow user to issue host token
 - Auto accept host token request
 - Improve and generalize logging as per auth-server with source, uuid and user
+- Add SAR daemon with caching
+- Add other Auth schemes then LDAP such as login or file based
