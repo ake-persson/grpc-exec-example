@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.trading.imc.intra/stampede/dock2box-ng/common/color"
+        "github.com/mickep76/grpc-exec-example/color"
 )
 
 var (

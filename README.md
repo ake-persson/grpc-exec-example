@@ -42,6 +42,11 @@ cd $GOPATH/src/github.com/mickep76/grpc-exec-example/tls_setup
 make preq ca req
 ```
 
+## Setup OpenLDAP server
+
+...TBD...
+
+
 ## Download/update deps
 
 ```bash
