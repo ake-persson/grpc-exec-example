@@ -1,8 +1,11 @@
-dn: uid=jdoe,ou=Users,%SUFFIX%
-objectclass: inetOrgPerson
-cn: John Doe
-sn: Doe
+dn: uid=jdoe,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: jdoe
 uid: jdoe
-userpassword: secret
-mail: jdoe@%SUFFIX%
-ou: Users
+userPassword: secret
+uidNumber: 10000
+gidNumber: 10000
+homeDirectory: /home/jdoe

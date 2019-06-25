@@ -9,6 +9,7 @@ type Config struct {
 	Backend    string `toml:"backend"`
 	Addr       string `toml:"addr"`
 	Base       string `toml:"base"`
+	OU         string `toml:"ou"`
 	Domain     string `toml:"domain"`
 	PrivKey    string `toml:"privKey"`
 	PublKey    string `toml:"publKey"`
@@ -50,6 +51,7 @@ func (c *Config) setFlags() *flag.FlagSet {
 	fl.StringVar(&c.Backend, "backend", c.Backend, "Backend either ad or ldap.")
 	fl.StringVar(&c.Addr, "addr", c.Addr, "LDAP server address.")
 	fl.StringVar(&c.Base, "base", c.Base, "LDAP base.")
+	fl.StringVar(&c.OU, "ou", c.OU, "LDAP users OU.")
 	fl.StringVar(&c.Domain, "domain", c.Domain, "LDAP domain.")
 	fl.StringVar(&c.PrivKey, "priv-key", c.PrivKey, "JWT private RSA key.")
 	fl.StringVar(&c.PublKey, "publ-key", c.PublKey, "JWT public RSA key.")

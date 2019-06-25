@@ -1,8 +1,8 @@
-dn: %SUFFIX%
+dn: dc=example,dc=com
 objectClass: dcObject
 objectClass: organization
-o: %ORG%
+o: Example Ltd
 
-dn: ou=Users,%SUFFIX%
+dn: ou=users,dc=example,dc=com
 objectClass: organizationalUnit
-ou: Users
+ou: users

@@ -140,7 +140,7 @@ func main() {
 
 	var err error
 	as := &server{}
-	as.auth, err = auth.Open(c.Backend, []string{c.Addr}, auth.WithTLS(cfg), auth.WithDomain(c.Domain), auth.WithBase(c.Base))
+	as.auth, err = auth.Open(c.Backend, []string{c.Addr}, auth.WithTLS(cfg), auth.WithDomain(c.Domain), auth.WithBase(c.Base), auth.WithOU(c.OU))
 	if err != nil {
 		log.Fatal(err)
 	}
