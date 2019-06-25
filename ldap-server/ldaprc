@@ -1,8 +1,5 @@
 BASE dc=example,dc=com
 URI ldaps://localhost
-#HOST localhost
-#PORT 636
 
 TLS_REQCERT allow
-#TLS_REQCERT demand
 TLS_CACERT ../tls_setup/certs/ca.pem
