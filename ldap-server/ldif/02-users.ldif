@@ -1,0 +1,8 @@
+dn: uid=jdoe,ou=Users,%SUFFIX%
+objectclass: inetOrgPerson
+cn: John Doe
+sn: Doe
+uid: jdoe
+userpassword: secret
+mail: jdoe@%SUFFIX%
+ou: Users

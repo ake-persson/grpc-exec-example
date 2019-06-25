@@ -17,9 +17,4 @@ for f in /etc/openldap/ldif/*.ldif; do
 	slapadd -l $f
 done
 
-#exec /usr/sbin/slapd -h "ldap:/// ldaps:///" "$@"
-/usr/sbin/slapd -h "ldap:/// ldaps:///" "$@"
-
-while [ 1 ]; do
-	sleep 1
-done
+exec /usr/sbin/slapd -h "ldap:/// ldaps:///" "$@"
