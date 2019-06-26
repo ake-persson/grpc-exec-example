@@ -67,12 +67,14 @@ go build
 
 You can set the specific LDAP/AD settings in **~/.auth-server.toml**.
 
-```toml
+```bash
+cat << EOF >~/.auth-server.toml
 addr = "localhost:389"
 base = "dc=example,dc=com"
 ou = "ou=users"
 ca = "../tls_setup/certs/ca.pem"
 verify = true
+EOF
 ```
 
 Start auth-server.
@@ -108,8 +110,10 @@ go build
 
 Generate a JWT token by logging in.
 
+For user "jdoe" use password "secret".
+
 ```bash
-./client login
+./client login -user jdoe
 ./client verify
 ```
 
