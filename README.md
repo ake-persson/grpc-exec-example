@@ -42,10 +42,12 @@ cd $GOPATH/src/github.com/mickep76/grpc-exec-example/tls_setup
 make preq ca req
 ```
 
-## Setup OpenLDAP server
+## Setup OpenLDAP server inside Docker
 
-...TBD...
-
+```bash
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/ldap-server
+make build run
+```
 
 ## Download/update deps
 
@@ -66,10 +68,11 @@ go build
 You can set the specific LDAP/AD settings in **~/.auth-server.toml**.
 
 ```toml
-addr = "dc.example.com:389"
-backend = "ad"
-base = "DC=example,DC=com"
-domain = "example"
+addr = "localhost:389"
+base = "dc=example,dc=com"
+ou = "ou=users"
+ca = "../tls_setup/certs/ca.pem"
+verify = true
 ```
 
 Start auth-server.
