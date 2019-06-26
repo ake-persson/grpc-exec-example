@@ -10,3 +10,4 @@
 - Improve and generalize logging as per auth-server with source, uuid and user
 - Add SAR daemon with caching
 - Add other Auth schemes then LDAP such as login or file based
+- Fix TLS issue with test OpenLDAP inside Docker, currently uses no verify
