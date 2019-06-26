@@ -58,14 +58,7 @@ go get -u ./...
 
 ## Build auth-server
 
-Build the auth-server.
-
-```bash
-cd $GOPATH/src/github.com/mickep76/grpc-exec-example/auth-server
-go build
-```
-
-You can set the specific LDAP/AD settings in **~/.auth-server.toml**.
+Configure auth-server LDAP/AD settings in **~/.auth-server.toml**.
 
 ```bash
 cat << EOF >~/.auth-server.toml
@@ -77,11 +70,15 @@ verify = true
 EOF
 ```
 
-Start auth-server.
+Build auth-server.
 
 ```bash
+cd $GOPATH/src/github.com/mickep76/grpc-exec-example/auth-server
+go build
 ./auth-server
 ```
+
+You can find the settings for auth-server using **./auth-server --help** or **./auth-server -print-conf**.
 
 ## Build info-server
 
