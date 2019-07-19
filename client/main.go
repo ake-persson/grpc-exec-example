@@ -13,7 +13,7 @@ import (
 )
 
 func usage() {
-	fmt.Print(`Usage of runshit [login|verify|renew|info|exec] [-h]:
+	fmt.Print(`Usage of runshit [login|verify|renew|info|exec|list] [-h]:
 
 Commands:
   login
@@ -28,6 +28,8 @@ Commands:
         Register host.
   exec
         Execute command.
+  list
+        List servers registered in catalog.
 `)
 	os.Exit(0)
 }
