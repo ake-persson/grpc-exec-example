@@ -11,4 +11,7 @@ run:
 	  -e TLS_KEY="/etc/ssl/certs/ldap.key" \
 	  ldap-server
 
-.PHONY: build
+test:
+	ldapsearch -x
+
+.PHONY: build run test
