@@ -4,11 +4,13 @@
 package exec
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	context "golang.org/x/net/context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -21,7 +23,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Command struct {
 	Uuid                 string   `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
@@ -251,6 +253,14 @@ func (x *execCommandExecClient) Recv() (*Message, error) {
 // ExecCommandServer is the server API for ExecCommand service.
 type ExecCommandServer interface {
 	Exec(*Command, ExecCommand_ExecServer) error
+}
+
+// UnimplementedExecCommandServer can be embedded to have forward compatible implementations.
+type UnimplementedExecCommandServer struct {
+}
+
+func (*UnimplementedExecCommandServer) Exec(req *Command, srv ExecCommand_ExecServer) error {
+	return status.Errorf(codes.Unimplemented, "method Exec not implemented")
 }
 
 func RegisterExecCommandServer(s *grpc.Server, srv ExecCommandServer) {

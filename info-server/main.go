@@ -110,7 +110,7 @@ func register(c *Config, cfg *tls.Config, creds credentials.PerRPCCredentials) {
 		req := &pb_info.KeepAliveRequest{Uuid: system.Uuid, Timestamp: &now}
 		log.Printf("keep alive: %v", req)
 		stream.Send(req)
-		time.Sleep(5 * time.Second)
+		time.Sleep(time.Duration(c.Keepalive) * time.Second)
 	}
 }
 

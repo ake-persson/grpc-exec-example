@@ -11,3 +11,6 @@
 - Add SAR daemon with caching
 - Add other Auth schemes then LDAP such as login or file based
 - Fix TLS issue with test OpenLDAP inside Docker, currently uses no verify
+- Arch based PXE loader for Bare-Metal prov. setup/ RAID etc.
+- Use https://github.com/FiloSottile/mkcert
+- UUID present also as Finger-Print

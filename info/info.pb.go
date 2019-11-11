@@ -4,11 +4,13 @@
 package info
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	context "golang.org/x/net/context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -21,7 +23,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Empty struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -658,6 +660,23 @@ type InfoServer interface {
 	Register(context.Context, *System) (*System, error)
 	KeepAlive(Info_KeepAliveServer) error
 	ListSystems(context.Context, *ListRequest) (*SystemList, error)
+}
+
+// UnimplementedInfoServer can be embedded to have forward compatible implementations.
+type UnimplementedInfoServer struct {
+}
+
+func (*UnimplementedInfoServer) GetSystem(ctx context.Context, req *Empty) (*System, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSystem not implemented")
+}
+func (*UnimplementedInfoServer) Register(ctx context.Context, req *System) (*System, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (*UnimplementedInfoServer) KeepAlive(srv Info_KeepAliveServer) error {
+	return status.Errorf(codes.Unimplemented, "method KeepAlive not implemented")
+}
+func (*UnimplementedInfoServer) ListSystems(ctx context.Context, req *ListRequest) (*SystemList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSystems not implemented")
 }
 
 func RegisterInfoServer(s *grpc.Server, srv InfoServer) {

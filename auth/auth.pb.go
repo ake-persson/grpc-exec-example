@@ -4,11 +4,13 @@
 package auth
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	context "golang.org/x/net/context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -21,7 +23,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Empty struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -379,6 +381,23 @@ type AuthServer interface {
 	LoginUser(context.Context, *Login) (*SignedToken, error)
 	VerifyToken(context.Context, *SignedToken) (*Token, error)
 	RenewToken(context.Context, *SignedToken) (*SignedToken, error)
+}
+
+// UnimplementedAuthServer can be embedded to have forward compatible implementations.
+type UnimplementedAuthServer struct {
+}
+
+func (*UnimplementedAuthServer) GetPublicKey(ctx context.Context, req *Empty) (*PublicKey, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPublicKey not implemented")
+}
+func (*UnimplementedAuthServer) LoginUser(ctx context.Context, req *Login) (*SignedToken, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
+}
+func (*UnimplementedAuthServer) VerifyToken(ctx context.Context, req *SignedToken) (*Token, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyToken not implemented")
+}
+func (*UnimplementedAuthServer) RenewToken(ctx context.Context, req *SignedToken) (*SignedToken, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RenewToken not implemented")
 }
 
 func RegisterAuthServer(s *grpc.Server, srv AuthServer) {
